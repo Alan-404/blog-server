@@ -15,6 +15,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(b
 
 builder.Services.AddScoped<IUserService, UserProvider>();
 builder.Services.AddScoped<IAccountService, AccountProvider>();
+builder.Services.AddScoped<IBlogService, BlogProvider>();
 
 var app = builder.Build();
 
@@ -28,7 +29,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseAuthentication();
 app.MapControllers();
 
 app.Run();

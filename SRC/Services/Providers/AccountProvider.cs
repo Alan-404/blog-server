@@ -61,5 +61,18 @@ namespace server.SRC.Services.Providers
                 return false;
             }
         }
+
+        public async Task<Account> GetById(string id)
+        {
+            try
+            {
+                return await this._context.Accounts.FindAsync(id);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
     }
 }

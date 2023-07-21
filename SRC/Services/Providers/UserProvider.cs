@@ -44,6 +44,19 @@ namespace server.SRC.Services.Providers
             }
         }
 
+        public async Task<User> GetById (string id)
+        {
+            try
+            {
+                return await this._context.Users.FindAsync(id);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         
     }
 }

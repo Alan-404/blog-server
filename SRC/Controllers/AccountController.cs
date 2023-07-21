@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using server.SRC.Models;
 using server.SRC.Services;
 using server.SRC.DTOs.Requests;
+using server.SRC.DTOs.Responses;
 using server.SRC.Utils;
 using server.SRC.Middlewares;
 
@@ -37,6 +38,25 @@ namespace server.SRC.Controllers
 
             return Ok(accessToken);
 
+        }
+
+        [HttpGet("auth")]
+        public async Task<IActionResult> GetInfoByToken()
+        {
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTHORIZATION_HEADER, out var authorizationHeader))
+            {
+                string accountId = this._middleware.ExtractAccountId(authorizationHeader.ToString());
+                if (accountId == null) return Unauthorized(Message.INVALID_TOKEN);
+
+                Account account = await this._accountService.GetById(accountId);
+                if (account == null) return NotFound("Not Found User");
+
+                User user = await this._userService.GetById(account.UserId);
+                if (user == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+
+                return Ok(new GetInfoByTokenResponse(user.Id, user.Email, user.FirstName, user.LastName, account.Role));
+            }
+            else return Unauthorized(Message.INVALID_TOKEN);
         }
     }
 }
