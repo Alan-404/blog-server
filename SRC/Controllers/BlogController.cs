@@ -24,7 +24,7 @@ namespace server.SRC.Controllers
         }
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddBlog([FromBody] AddBlogRequest request)
+        public async Task<IActionResult> AddBlog([FromForm] AddBlogRequest request)
         {
             if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTHORIZATION_HEADER, out var authorizationHeader))
             {
@@ -35,10 +35,14 @@ namespace server.SRC.Controllers
                 if (account == null) return Unauthorized(Message.INVALID_TOKEN);
                 else if (account.Role.Equals(RoleEnum.ADMIN.ToString().ToLower()) == false) return Forbid(Message.FORBIDDEN_CLIENT); 
 
-                Blog blog = new Blog(request.Title, request.Introduction, request.Content);
+                
+                Blog blog = new Blog(account.UserId ,request.Title, request.Introduction, request.Content);
                 Blog savedBlog = await this._blogService.Save(blog);
                 if (savedBlog == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
                 
+                bool savedThumnail = await this._blogService.SaveThumnail(request.Thumnail, savedBlog.Id);
+                if (savedThumnail == false) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+
                 return Ok(savedBlog);
             }
             else return Unauthorized(Message.INVALID_TOKEN);
@@ -60,6 +64,13 @@ namespace server.SRC.Controllers
             if (blog == null) return NotFound("Not Found Blog");
 
             return Ok(blog);
+        }
+
+        [HttpGet("thumnail/{id}")]
+        public IActionResult GetThumnail([FromRoute] string id)
+        {
+            string path = this._blogService.GetThumnailLink(id);
+            return File(System.IO.File.OpenRead(path), Constant.contentTypeImage);
         }
     }
 }

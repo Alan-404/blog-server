@@ -5,6 +5,7 @@ namespace server.SRC.Utils
     public class Constant
     {
         public readonly static int lengthId = 10;
+        public readonly static string contentTypeImage = "image/png";
     }
 
     public class RequestHeader

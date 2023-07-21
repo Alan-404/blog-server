@@ -8,6 +8,7 @@ namespace server.SRC.Services.Providers
     public class BlogProvider: IBlogService
     {
         private readonly DatabaseContext _context;
+        private readonly string _storagePath = "./Storage/blog";
 
         public BlogProvider(DatabaseContext context)
         {
@@ -56,6 +57,27 @@ namespace server.SRC.Services.Providers
                 Console.WriteLine(e);
                 return null;
             }
+        }
+
+        public async Task<bool> SaveThumnail(IFormFile thumnail, string id)
+        {
+            try
+            {
+                string filePath = Path.Combine(this._storagePath, id + ".png");
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await thumnail.CopyToAsync(fileStream);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            } 
+        }
+
+        public string GetThumnailLink(string id)
+        {
+            return Path.Combine(this._storagePath, id + ".png");
         }
     }
 }

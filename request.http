@@ -32,7 +32,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
 
 {
-    "title": "test 2",
+    "title": "test",
     "introduction": "introduction test",
     "content": "content test"
 }

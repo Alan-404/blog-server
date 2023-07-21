@@ -10,6 +10,8 @@ namespace server.SRC.Models
         [Key]
         [Column("id")]
         public string Id {get; set;}
+        [Column("user_id")]
+        public string UserId {get; set;}
         [Column("title")]
         public string Title {get; set;}
         [Column("introduction")]
@@ -23,8 +25,9 @@ namespace server.SRC.Models
 
         public Blog(){}
 
-        public Blog(string title, string introduction, string content)
+        public Blog(string userId ,string title, string introduction, string content)
         {
+            this.UserId = userId;
             this.Title = title;
             this.Introduction = introduction;
             this.Content = content;
