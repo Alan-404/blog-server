@@ -1,7 +1,7 @@
 using server.SRC.Configs;
 using server.SRC.Models;
 using server.SRC.Utils;
-
+using Microsoft.EntityFrameworkCore;
 namespace server.SRC.Services.Providers
 {
     public class UserProvider: IUserService
@@ -30,5 +30,20 @@ namespace server.SRC.Services.Providers
                 return null;
             }
         }
+
+        public async Task<User> GetByEmail (string email)
+        {
+            try
+            {
+                return await this._context.Users.FirstOrDefaultAsync(p => p.Email == email);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        
     }
 }

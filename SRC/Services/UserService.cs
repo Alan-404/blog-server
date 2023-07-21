@@ -5,5 +5,6 @@ namespace server.SRC.Services
     public interface IUserService
     {
         public Task<User> Save(User user);
+        public Task<User> GetByEmail (string email);
     }
 }

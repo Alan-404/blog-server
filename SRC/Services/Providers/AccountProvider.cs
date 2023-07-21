@@ -2,6 +2,7 @@ using server.SRC.Models;
 using server.SRC.Configs;
 using server.SRC.Utils;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 namespace server.SRC.Services.Providers
 {
@@ -31,6 +32,33 @@ namespace server.SRC.Services.Providers
             {
                 Console.WriteLine(e);
                 return null;
+            }
+        }
+
+        public async Task<Account> GetByUserId (string userId)
+        {
+            try
+            {
+                return await this._context.Accounts.FirstOrDefaultAsync(p => p.UserId == userId);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public bool CheckPassword (string encoded, string raw)
+        {
+            try
+            {
+                var passwordVerificationResult = this._hasher.VerifyHashedPassword(null, encoded, raw);
+                return (passwordVerificationResult == PasswordVerificationResult.Success);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
             }
         }
     }

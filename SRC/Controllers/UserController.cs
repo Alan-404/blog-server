@@ -3,7 +3,7 @@ using server.SRC.Models;
 using server.SRC.Services;
 using server.SRC.Utils;
 using server.SRC.DTOs.Requests;
-
+using System.Transactions;
 namespace server.SRC.Controllers
 {
     [ApiController]
@@ -22,6 +22,9 @@ namespace server.SRC.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterUser([FromBody] UserRegisterRequest request)
         {
+            User checkedUser = await this._userService.GetByEmail(request.Email);
+            if (checkedUser != null) return BadRequest("Email has been taken");
+
             User user = new User(request.Email, request.FirstName, request.LastName);
             User savedUser = await this._userService.Save(user);
             if(savedUser == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
@@ -29,7 +32,7 @@ namespace server.SRC.Controllers
             Account account = new Account(savedUser.Id, request.Password, request.Role);
             Account savedAccount = await this._accountService.Save(account);
             if (savedAccount == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
-            
+                
             return Ok(savedUser);
         }   
 

@@ -1,5 +1,5 @@
 ###
-POST http://localhost:5127/server/user
+POST http://localhost:5200/server/user
 Content-Type: application/json
 
 {
@@ -8,4 +8,13 @@ Content-Type: application/json
     "lastName": "tri",
     "password": "123456",
     "role": "admin"
+}
+
+###
+POST http://localhost:5200/server/account/auth
+Content-Type: application/json
+
+{
+    "email": "nguyentri.alan@gmail.com",
+    "password": "123456"
 }
