@@ -1,0 +1,11 @@
+###
+POST http://localhost:5127/server/user
+Content-Type: application/json
+
+{
+    "email": "nguyentri.alan@gmail.com",
+    "firstName": "nguyen",
+    "lastName": "tri",
+    "password": "123456",
+    "role": "admin"
+}
