@@ -17,5 +17,6 @@ namespace server.SRC.Utils
         public readonly static string INTERNAL_ERROR_SERVER = "Internel Error Server";
         public readonly static string INVALID_TOKEN = "Invalid Token";
         public readonly static string FORBIDDEN_CLIENT = "You are not the admin";
+        public readonly static string INVALID_PATH = "Invalid Path";
     }
 }

@@ -1,6 +1,7 @@
 using server.SRC.Models;
 using server.SRC.Configs;
 using server.SRC.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace server.SRC.Services.Providers
 {
@@ -23,6 +24,32 @@ namespace server.SRC.Services.Providers
                 await this._context.AddAsync(blog);
                 await this._context.SaveChangesAsync();
                 return blog;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<List<Blog>> GetAll()
+        {
+            try
+            {
+                return await this._context.Blogs.OrderByDescending(p => p.CreatedAt).ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<Blog>();
+            }
+        }
+
+        public async Task<Blog> GetById (string id)
+        {
+            try
+            {
+                return await this._context.Blogs.FindAsync(id);
             }
             catch(Exception e)
             {

@@ -2,6 +2,16 @@
 
 namespace server.SRC.DTOs.Responses
 {
+    public class LoginAccountResponse
+    {
+        public string AccessToken {get; set;}
+
+        public LoginAccountResponse(){}
+        public LoginAccountResponse(string accessToken)
+        {
+            this.AccessToken = accessToken;
+        }
+    }
     public class GetInfoByTokenResponse
     {
         public string UserId {get; set;}

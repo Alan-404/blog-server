@@ -34,11 +34,12 @@ namespace server.SRC.Controllers
 
             if (this._accountService.CheckPassword(account.Password, request.Password) == false) return BadRequest("Unmatched Password");
 
-            string accessToken = this._middleware.GenerateToken(account.Id);
+            string accessToken = this._middleware.GenerateToken(account.Id, request.Remember);
 
-            return Ok(accessToken);
+            return Ok(new LoginAccountResponse(accessToken));
 
         }
+
 
         [HttpGet("auth")]
         public async Task<IActionResult> GetInfoByToken()

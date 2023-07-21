@@ -43,5 +43,23 @@ namespace server.SRC.Controllers
             }
             else return Unauthorized(Message.INVALID_TOKEN);
         }
+
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllBlogs()
+        {
+            List<Blog> blogs = await this._blogService.GetAll();
+            return Ok(blogs);
+        }
+
+        [HttpGet("id/{id}")]
+        public async Task<IActionResult> GetBlogById([FromRoute(Name ="id")] string id)
+        {
+            if (id == null) return BadRequest(Message.INVALID_PATH);
+
+            Blog blog = await this._blogService.GetById(id);
+            if (blog == null) return NotFound("Not Found Blog");
+
+            return Ok(blog);
+        }
     }
 }

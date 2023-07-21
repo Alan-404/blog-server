@@ -14,12 +14,11 @@ namespace server.SRC.Middlewares
         {
             _secretKey = "my-AI-key-asdfajsdjfhasjhfjashfkljhsajdfhasjfhd";
         }
-        public string GenerateToken(string accountId)
+        public string GenerateToken(string accountId, bool remember)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secretKey);
 
-            var expirationTime = DateTime.UtcNow.AddMonths(3);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -28,7 +27,7 @@ namespace server.SRC.Middlewares
                     new Claim("id", accountId),
 
                 }),
-                Expires = DateTime.UtcNow.AddMonths(3),
+                Expires = remember ? DateTime.UtcNow.AddMonths(3) : DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

@@ -19,6 +19,7 @@ Content-Type: application/json
     "password": "123456"
 }
 
+
 ###
 GET http://localhost:5200/server/account/auth
 Content-Type: application/json
@@ -35,3 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxN
     "introduction": "introduction test",
     "content": "content test"
 }
+
+###
+GET http://localhost:5200/server/blog/all
+Content-Type: application/json
