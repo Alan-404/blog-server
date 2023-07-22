@@ -70,5 +70,31 @@ namespace server.SRC.Services.Providers
                 return new List<Comment>();
             }
         }
+
+        public async Task<List<Comment>> GetAllRepliesById (string id)
+        {
+            try
+            {
+                return await this._context.Comments.Where(p => p.Reply == id).ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<Comment>();
+            }
+        }
+
+        public async Task<List<Comment>> PaginateRepliesById (string id, int page, int num)
+        {
+            try
+            {
+                return await this._context.Comments.Where(p => p.Reply == id).Skip((page-1)*num).Take(num).ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<Comment>();
+            }
+        }
     }
 }
