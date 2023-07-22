@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using server.SRC.Configs;
+using server.SRC.DB;
 using server.SRC.Services;
 using server.SRC.Services.Providers;
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -26,7 +26,8 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(b
 builder.Services.AddScoped<IUserService, UserProvider>();
 builder.Services.AddScoped<IAccountService, AccountProvider>();
 builder.Services.AddScoped<IBlogService, BlogProvider>();
-
+builder.Services.AddScoped<IMediaService, MediaProvider>();
+builder.Services.AddScoped<ICommentService, CommentProvider>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

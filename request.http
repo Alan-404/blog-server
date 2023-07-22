@@ -40,3 +40,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxN
 ###
 GET http://localhost:5200/server/blog/all
 Content-Type: application/json
+
+###
+GET http://localhost:5200/server/blog/show
+Content-Type: application/json
+
+###
+POST http://localhost:5200/server/comment/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAwMTE4NDcsImV4cCI6MTY5MDA5ODI0NywiaWF0IjoxNjkwMDExODQ3fQ.eMoIDgN3ZcSZAiB1ZFG-nfY6RXl--merMm1mIqI5qVE
+
+{
+    "blogId": "lep828mw2a",
+    "content": "Good",
+    "reply": null
+}
+
+###
+GET http://localhost:5200/server/blog/id/o4gnc1qfsq
+Content-Type: application/json

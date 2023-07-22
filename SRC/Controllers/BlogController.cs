@@ -4,6 +4,7 @@ using server.SRC.Services;
 using server.SRC.DTOs.Requests;
 using server.SRC.Middlewares;
 using server.SRC.Utils;
+using server.SRC.DTOs.Responses;
 using server.SRC.Enums;
 
 namespace server.SRC.Controllers
@@ -15,11 +16,13 @@ namespace server.SRC.Controllers
         private readonly IBlogService _blogService;
         private readonly JWTMiddleware _middleware;
         private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
 
-        public BlogController(IBlogService blogService, IAccountService accountService)
+        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService)
         {
             this._blogService = blogService;
             this._accountService = accountService;
+            this._userService = userService;
             this._middleware = new JWTMiddleware();
         }
 
@@ -36,6 +39,7 @@ namespace server.SRC.Controllers
                 else if (account.Role.Equals(RoleEnum.ADMIN.ToString().ToLower()) == false) return Forbid(Message.FORBIDDEN_CLIENT); 
 
                 
+                
                 Blog blog = new Blog(account.UserId ,request.Title, request.Introduction, request.Content);
                 Blog savedBlog = await this._blogService.Save(blog);
                 if (savedBlog == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
@@ -46,6 +50,50 @@ namespace server.SRC.Controllers
                 return Ok(savedBlog);
             }
             else return Unauthorized(Message.INVALID_TOKEN);
+        }
+
+        [HttpGet("view/{blogId}")]
+        public async Task<IActionResult> AddView([FromRoute(Name = "blogId")] string id)
+        {
+            Blog blog = await this._blogService.GetById(id);
+            if (blog == null) return NotFound("Not found blog");
+
+            blog.NumViews = blog.NumViews + 1;
+
+            Blog savedBlog = await this._blogService.Edit(blog);
+            if (savedBlog == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+            return Ok();
+        }
+
+        [HttpGet("show")]
+        public async Task<IActionResult> GetBlogs([FromQuery (Name = "page")] int page, [FromQuery(Name = "num")] int num){
+            if (page == 0) page = 1;
+
+            int totalItems = (await this._blogService.GetAll()).Count;
+
+            if (num == 0) num = totalItems;
+
+            int totalPages = totalItems / num;
+            if (totalItems % num != 0) totalPages++;
+
+            List<Blog> blogs = await this._blogService.Paginate(page, num);
+            ShowBlogsResponse response = new ShowBlogsResponse();
+            List<BlogInfo> items = new List<BlogInfo>();
+            foreach (var blog in blogs){
+                User user = await this._userService.GetById(blog.UserId);
+                BlogInfo item = new BlogInfo();
+                item.BlogId = blog.Id;
+                item.Author = user.FirstName + " " + user.LastName;
+                item.Title = blog.Title;
+                item.Introduction = blog.Introduction;
+                item.CreatedAt = blog.CreatedAt;
+                item.ModifiedAt = blog.ModifiedAt;
+                items.Add(item);
+            }
+            response.blogs = items;
+            response.TotalItems = totalItems;
+            response.TotalPages = totalPages;
+            return Ok(response);
         }
 
         [HttpGet("all")]
@@ -63,7 +111,18 @@ namespace server.SRC.Controllers
             Blog blog = await this._blogService.GetById(id);
             if (blog == null) return NotFound("Not Found Blog");
 
-            return Ok(blog);
+            BlogDetail item = new BlogDetail();
+            
+            User user = await this._userService.GetById(blog.UserId);
+            item.Author = user.FirstName + " " + user.LastName;
+            item.BlogId = blog.Id;
+            item.Title = blog.Title;
+            item.Introduction = blog.Introduction;
+            item.Content = blog.Content;
+            item.CreatedAt = blog.CreatedAt;
+            item.ModifiedAt = blog.ModifiedAt;
+
+            return Ok(item);
         }
 
         [HttpGet("thumnail/{id}")]

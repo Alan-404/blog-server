@@ -6,6 +6,7 @@ namespace server.SRC.Utils
     {
         public readonly static int lengthId = 10;
         public readonly static string contentTypeImage = "image/png";
+        public readonly static string imgTagRegex = @"<img\s+src=""data:image\/(jpeg|png|gif|bmp|webp|svg\+xml);base64,([^""]*)""\s+alt=""([^""]*)""\s*\/?>";
     }
 
     public class RequestHeader

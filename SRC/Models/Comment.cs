@@ -1,37 +1,32 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace server.SRC.Models
 {
-    [Table("blog")]
-    public class Blog
+    [Table("comment")]
+    public class Comment
     {
         [Key]
         [Column("id")]
         public string Id {get; set;}
         [Column("user_id")]
         public string UserId {get; set;}
-        [Column("title")]
-        public string Title {get; set;}
-        [Column("introduction")]
-        public string Introduction {get; set;}
+        [Column("blog_id")]
+        public string BlogId {get; set;}
+        [Column("reply")]
+        public string Reply {get; set;}
         [Column("content")]
         public string Content {get; set;}
-        [Column("num_views")]
-        public int NumViews {get; set;}
         [Column("created_at")]
         public DateTime CreatedAt {get; set;}
         [Column("modified_at")]
         public DateTime ModifiedAt {get; set;}
+        public Comment(){}
 
-        public Blog(){}
-
-        public Blog(string userId ,string title, string introduction, string content)
+        public Comment(string userId, string reply, string content)
         {
             this.UserId = userId;
-            this.Title = title;
-            this.Introduction = introduction;
+            this.Reply =reply;
             this.Content = content;
         }
     }

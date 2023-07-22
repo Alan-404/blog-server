@@ -1,5 +1,5 @@
 using server.SRC.Models;
-using server.SRC.Configs;
+using server.SRC.DB;
 using server.SRC.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,9 +20,26 @@ namespace server.SRC.Services.Providers
             try
             {
                 blog.Id = Library.GenerateId(Constant.lengthId);
+                blog.NumViews = 0;
                 blog.CreatedAt = DateTime.Now;
                 blog.ModifiedAt = DateTime.Now;
                 await this._context.AddAsync(blog);
+                await this._context.SaveChangesAsync();
+                return blog;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<Blog> Edit (Blog blog)
+        {
+            try
+            {
+                this._context.Blogs.Attach(blog);
+                this._context.Blogs.Update(blog);
                 await this._context.SaveChangesAsync();
                 return blog;
             }
@@ -75,9 +92,16 @@ namespace server.SRC.Services.Providers
             } 
         }
 
+        public async Task<List<Blog>> Paginate(int page, int num)
+        {
+            return await this._context.Blogs.Skip((page-1)*num).Take(num).ToListAsync();
+        }
+
         public string GetThumnailLink(string id)
         {
-            return Path.Combine(this._storagePath, id + ".png");
+            string path =  Path.Combine(this._storagePath, id + ".png");
+            if (Path.Exists(path)) return path;
+            return null;
         }
     }
 }

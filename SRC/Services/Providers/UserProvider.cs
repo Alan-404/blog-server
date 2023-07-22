@@ -1,4 +1,4 @@
-using server.SRC.Configs;
+using server.SRC.DB;
 using server.SRC.Models;
 using server.SRC.Utils;
 using Microsoft.EntityFrameworkCore;
