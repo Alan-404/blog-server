@@ -9,6 +9,7 @@ namespace server.SRC.Services.Providers
     {
         private readonly DatabaseContext _context;
         private readonly string _storagePath = "./Storage/blog";
+        private readonly string _storageMedia = "./Storage/media";
 
         public BlogProvider(DatabaseContext context)
         {
@@ -102,6 +103,31 @@ namespace server.SRC.Services.Providers
             string path =  Path.Combine(this._storagePath, id + ".png");
             if (Path.Exists(path)) return path;
             return null;
+        }
+
+        public string GetMediaLink(string id)
+        {
+            string path = Path.Combine(this._storageMedia, id + ".png");
+            if (Path.Exists(path)) return path;
+            return null;
+        }
+        
+
+        public async Task<string> SaveMedia(IFormFile file)
+        {
+            try
+            {
+                string mediaId = Library.GenerateId(20);
+                string filePath = Path.Combine(this._storageMedia, mediaId + ".png");
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+                return mediaId;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
     }
 }

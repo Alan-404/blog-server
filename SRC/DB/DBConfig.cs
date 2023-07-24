@@ -12,7 +12,6 @@ namespace server.SRC.DB
         public DbSet<User> Users {get; set;}
         public DbSet<Account> Accounts {get; set;}
         public DbSet<Blog> Blogs {get; set;}
-        public DbSet<Media> Medias {get; set;}
         public DbSet<Comment> Comments {get; set;}
         
     }

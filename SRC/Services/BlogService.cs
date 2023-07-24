@@ -11,5 +11,7 @@ namespace server.SRC.Services
         public Task<bool> SaveThumnail(IFormFile thumnail, string id);
         public Task<List<Blog>> Paginate(int page, int num);
         public string GetThumnailLink(string id);
+        public string GetMediaLink(string id);
+        public Task<string> SaveMedia(IFormFile file);
     }
 }

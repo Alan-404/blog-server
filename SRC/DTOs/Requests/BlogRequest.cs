@@ -1,6 +1,10 @@
 
 namespace server.SRC.DTOs.Requests
 {
+    public class AddMediaRequest
+    {
+        public IFormFile File {get; set;}
+    }
     public class AddBlogRequest
     {
         public string Title {get; set;}

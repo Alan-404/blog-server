@@ -19,6 +19,15 @@ namespace server.SRC.DTOs.Responses
         public DateTime CreatedAt {get; set;}
         public DateTime ModifiedAt {get; set;}
     }
+
+    public class AddMediaResponse{
+        public string MediaId {get; set;}
+
+        public AddMediaResponse(string mediaId)
+        {
+            this.MediaId = mediaId;
+        }
+    }
     public class BlogInfo
     {
         public string Author {get; set;}

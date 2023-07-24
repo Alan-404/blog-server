@@ -39,5 +39,12 @@ namespace server.SRC.Controllers
             }
             else return Unauthorized(Message.INVALID_TOKEN);
         }
+
+        [HttpGet("blog/{blogId}")]
+        public async Task<IActionResult> GetRootCommentsOfBlog([FromRoute(Name ="blogId")] string id)
+        {
+            List<Comment> comments = await this._commentService.GetAllRootByBlogId(id);
+            return Ok(comments);
+        }
     }
 }

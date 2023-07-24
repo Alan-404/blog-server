@@ -26,7 +26,6 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(b
 builder.Services.AddScoped<IUserService, UserProvider>();
 builder.Services.AddScoped<IAccountService, AccountProvider>();
 builder.Services.AddScoped<IBlogService, BlogProvider>();
-builder.Services.AddScoped<IMediaService, MediaProvider>();
 builder.Services.AddScoped<ICommentService, CommentProvider>();
 var app = builder.Build();
 

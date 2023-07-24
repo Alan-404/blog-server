@@ -43,6 +43,7 @@ CREATE TABLE MEDIA(
 	BLOG_ID VARCHAR(11) REFERENCES BLOG(ID)
 )
 
+drop table media
 drop table comment
 
 delete from blog

@@ -52,6 +52,23 @@ namespace server.SRC.Controllers
             else return Unauthorized(Message.INVALID_TOKEN);
         }
 
+        [HttpPost("media")]
+        public async Task<IActionResult> AddMedia([FromForm] AddMediaRequest request)
+        {
+            if (request.File == null || request.File.Length == 0) return BadRequest();
+
+            string mediaId = await this._blogService.SaveMedia(request.File);
+            if (mediaId == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+            return Ok(new AddMediaResponse(mediaId));
+        }
+
+        [HttpGet("media/{id}")]
+        public IActionResult GetMedia([FromRoute] string id)
+        {
+            string path = this._blogService.GetMediaLink(id);
+            return File(System.IO.File.OpenRead(path), Constant.contentTypeImage);
+        }
+
         [HttpGet("view/{blogId}")]
         public async Task<IActionResult> AddView([FromRoute(Name = "blogId")] string id)
         {
