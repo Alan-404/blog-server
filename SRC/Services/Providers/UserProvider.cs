@@ -7,6 +7,7 @@ namespace server.SRC.Services.Providers
     public class UserProvider: IUserService
     {
         private readonly DatabaseContext _context;
+        private readonly string _storagePath = "./Storage/user";
 
         public UserProvider(DatabaseContext context)
         {
@@ -57,6 +58,44 @@ namespace server.SRC.Services.Providers
             }
         }
 
-        
+        public string GetAvatarPath(string id)
+        {
+            string path = Path.Combine(this._storagePath, id + ".png");
+            if (Path.Exists(path)) return path;
+            return null;
+        }
+
+        public bool DeleteAvatar(string id)
+        {
+            try
+            {
+                string path = Path.Combine(this._storagePath, id + ".png");
+                if (Path.Exists(path))
+                    return true;
+                File.Delete(path);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
+        public async Task<bool> SaveAvatar(string id, IFormFile avatar)
+        {
+            try
+            {
+                string path = Path.Combine(this._storagePath, id + ".png");
+                using var fileStream = new FileStream(path, FileMode.Create);
+                await avatar.CopyToAsync(fileStream);
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
     }
 }

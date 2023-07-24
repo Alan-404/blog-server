@@ -37,17 +37,15 @@ namespace server.SRC.Controllers
             string accessToken = this._middleware.GenerateToken(account.Id, request.Remember);
 
             return Ok(new LoginAccountResponse(accessToken));
-
         }
 
 
         [HttpGet("auth")]
         public async Task<IActionResult> GetInfoByToken()
         {
-            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTHORIZATION_HEADER, out var authorizationHeader))
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTH_HEADER, out var accountId))
             {
-                string accountId = this._middleware.ExtractAccountId(authorizationHeader.ToString());
-                if (accountId == null) return Unauthorized(Message.INVALID_TOKEN);
+                if (accountId.ToString() == null) return Unauthorized(Message.INVALID_TOKEN);
 
                 Account account = await this._accountService.GetById(accountId);
                 if (account == null) return NotFound("Not Found User");

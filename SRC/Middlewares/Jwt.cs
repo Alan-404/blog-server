@@ -67,9 +67,17 @@ namespace server.SRC.Middlewares
 
         public String ExtractAccountId(string token)
         {
-            var principal = this.GetPrincipalFromToken(token);
-            var accountIdClaim = principal.FindFirst("id");
-            return accountIdClaim.Value;
+            try
+            {
+                var principal = this.GetPrincipalFromToken(token);
+                var accountIdClaim = principal.FindFirst("id");
+                return accountIdClaim.Value;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
     }
 }

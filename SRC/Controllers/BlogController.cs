@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using server.SRC.Models;
 using server.SRC.Services;
 using server.SRC.DTOs.Requests;
-using server.SRC.Middlewares;
 using server.SRC.Utils;
 using server.SRC.DTOs.Responses;
 using server.SRC.Enums;
@@ -14,25 +13,24 @@ namespace server.SRC.Controllers
     public class BlogController: ControllerBase
     {
         private readonly IBlogService _blogService;
-        private readonly JWTMiddleware _middleware;
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
+        private readonly ICommentService _commentService;
 
-        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService)
+        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService, ICommentService commentService)
         {
             this._blogService = blogService;
             this._accountService = accountService;
             this._userService = userService;
-            this._middleware = new JWTMiddleware();
+            this._commentService = commentService;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddBlog([FromForm] AddBlogRequest request)
         {
-            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTHORIZATION_HEADER, out var authorizationHeader))
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTH_HEADER, out var accountId))
             {
-                string accountId = this._middleware.ExtractAccountId(authorizationHeader.ToString());
-                if (accountId == null) return Unauthorized(Message.INVALID_TOKEN);
+                if (accountId.ToString() == null) return Unauthorized(Message.INVALID_TOKEN);
 
                 Account account = await this._accountService.GetById(accountId);
                 if (account == null) return Unauthorized(Message.INVALID_TOKEN);
@@ -98,10 +96,12 @@ namespace server.SRC.Controllers
             List<BlogInfo> items = new List<BlogInfo>();
             foreach (var blog in blogs){
                 User user = await this._userService.GetById(blog.UserId);
+                int numViews = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
                 BlogInfo item = new BlogInfo();
                 item.BlogId = blog.Id;
                 item.Author = user.FirstName + " " + user.LastName;
                 item.Title = blog.Title;
+                item.NumViews = numViews;
                 item.Introduction = blog.Introduction;
                 item.CreatedAt = blog.CreatedAt;
                 item.ModifiedAt = blog.ModifiedAt;
@@ -136,6 +136,7 @@ namespace server.SRC.Controllers
             item.Title = blog.Title;
             item.Introduction = blog.Introduction;
             item.Content = blog.Content;
+            item.NumViews = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
             item.CreatedAt = blog.CreatedAt;
             item.ModifiedAt = blog.ModifiedAt;
 

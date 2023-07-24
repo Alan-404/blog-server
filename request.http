@@ -27,8 +27,12 @@ Content-Type: application/json
 ###
 GET http://localhost:5200/server/account/auth
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
+Authorization: Bearer edyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
 
+###
+GET http://localhost:5200/server/user/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
 
 ###
 POST http://localhost:5200/server/blog/add
@@ -62,4 +66,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZ
 
 ###
 GET http://localhost:5200/server/blog/id/o4gnc1qfsq
+Content-Type: application/json
+
+###
+GET http://localhost:5200/server/user/info/81tezr1po7
 Content-Type: application/json

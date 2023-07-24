@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using server.SRC.DB;
 using server.SRC.Services;
 using server.SRC.Services.Providers;
+using server.SRC.Middlewares;
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
+app.UseMiddleware<AuthMiddleware>();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();

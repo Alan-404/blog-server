@@ -16,6 +16,7 @@ namespace server.SRC.DTOs.Responses
         public string Title{get; set;}
         public string Introduction {get; set;}
         public string Content {get; set;}
+        public int NumViews {get; set;}
         public DateTime CreatedAt {get; set;}
         public DateTime ModifiedAt {get; set;}
     }
@@ -34,6 +35,7 @@ namespace server.SRC.DTOs.Responses
         public string BlogId {get; set;}
         public string Title{get; set;}
         public string Introduction {get; set;}
+        public int NumViews {get; set;}
         public DateTime CreatedAt {get; set;}
         public DateTime ModifiedAt {get; set;}
     }

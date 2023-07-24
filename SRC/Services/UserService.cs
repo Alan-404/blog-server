@@ -7,5 +7,8 @@ namespace server.SRC.Services
         public Task<User> Save(User user);
         public Task<User> GetById (string id);
         public Task<User> GetByEmail (string email);
+        public string GetAvatarPath(string id);
+        public Task<bool> SaveAvatar(string id, IFormFile avatar);
+        public bool DeleteAvatar(string id);
     }
 }

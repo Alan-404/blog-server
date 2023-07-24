@@ -10,4 +10,9 @@ namespace server.SRC.DTOs.Requests
         public string Password {get; set;}
         public string Role {get; set;}
     }
+
+    public class UpdateAvatarRequest
+    {
+        public IFormFile Avatar {get; set;}
+    }
 }

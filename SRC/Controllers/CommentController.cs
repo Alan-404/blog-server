@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using server.SRC.Models;
 using server.SRC.Services;
-using server.SRC.Middlewares;
+using server.SRC.DTOs.Responses;
 using server.SRC.Utils;
 namespace server.SRC.Controllers
 {
@@ -10,23 +10,22 @@ namespace server.SRC.Controllers
     public class CommentController: ControllerBase
     {
         private readonly ICommentService _commentService;
-        private readonly JWTMiddleware _middleware;
         private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
 
-        public CommentController(ICommentService commentService, IAccountService accountService)
+        public CommentController(ICommentService commentService, IAccountService accountService, IUserService userService)
         {
             this._commentService = commentService;
             this._accountService = accountService;
-            this._middleware = new JWTMiddleware();
+            this._userService  =  userService;
         }
 
         [HttpPost("add")]
         public async Task<IActionResult> AddComment([FromBody] Comment comment)
         {
-            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTHORIZATION_HEADER, out var header))
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTH_HEADER, out var accountId))
             {
-                string accountId = this._middleware.ExtractAccountId(header.ToString());
-                if (accountId == null) return Unauthorized(Message.INVALID_TOKEN);
+                if (accountId.ToString() == null) return Unauthorized(Message.INVALID_TOKEN);
 
                 Account account = await this._accountService.GetById(accountId);
                 if (account == null) return Unauthorized(Message.INVALID_TOKEN);
@@ -44,7 +43,13 @@ namespace server.SRC.Controllers
         public async Task<IActionResult> GetRootCommentsOfBlog([FromRoute(Name ="blogId")] string id)
         {
             List<Comment> comments = await this._commentService.GetAllRootByBlogId(id);
-            return Ok(comments);
+            List<CommentInfo> items = new List<CommentInfo>();
+            foreach (var comment in comments)
+            {
+                User user = await this._userService.GetById(comment.UserId);
+                items.Add(new CommentInfo(comment.Id, comment.UserId, user.FirstName + " " + user.LastName, comment.BlogId, comment.Reply, comment.Content, comment.CreatedAt, comment.ModifiedAt));
+            }
+            return Ok(items);
         }
     }
 }
