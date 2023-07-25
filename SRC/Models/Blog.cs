@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-
 namespace server.SRC.Models
 {
     [Table("blog")]
@@ -18,8 +17,6 @@ namespace server.SRC.Models
         public string Introduction {get; set;}
         [Column("content")]
         public string Content {get; set;}
-        [Column("num_views")]
-        public int NumViews {get; set;}
         [Column("created_at")]
         public DateTime CreatedAt {get; set;}
         [Column("modified_at")]

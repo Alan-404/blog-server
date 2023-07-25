@@ -21,18 +21,14 @@ namespace server.SRC.Middlewares
 
                 if (accountId == null)
                 {
-                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                    await context.Response.WriteAsync(Message.INVALID_TOKEN);
-                    return;
+                    await _next(context);
                 }
                 context.Request.Headers.Add(RequestHeader.AUTH_HEADER, accountId);
                 await _next(context);
             }
             else
             {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                await context.Response.WriteAsync(Message.INVALID_TOKEN);
-                return;
+                await _next(context);
             }
         }
     }

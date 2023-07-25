@@ -32,6 +32,34 @@ namespace server.SRC.Services.Providers
             }
         }
 
+        public async Task<Comment> GetById(string id)
+        {
+            try
+            {
+                return await this._context.Comments.FindAsync(id);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<bool> Remove(Comment comment)
+        {
+            try
+            {
+                this._context.Comments.Remove(comment);
+                await this._context.SaveChangesAsync();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
         public async Task<List<Comment>> GetAllRootByBlogId(string blogId)
         {
             try
@@ -62,7 +90,7 @@ namespace server.SRC.Services.Providers
         {
             try
             {
-                return await this._context.Comments.Where(p => p.BlogId == blogId).ToListAsync();
+                return await this._context.Comments.OrderByDescending(p => p.CreatedAt).Where(p => p.BlogId == blogId).ToListAsync();
             }
             catch(Exception e)
             {

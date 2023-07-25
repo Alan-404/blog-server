@@ -26,5 +26,6 @@ namespace server.SRC.Utils
         public readonly static string INVALID_TOKEN = "Invalid Token";
         public readonly static string FORBIDDEN_CLIENT = "You are not the admin";
         public readonly static string INVALID_PATH = "Invalid Path";
+        public readonly static string INVALID_REQUEST = "Invalid Request";
     }
 }

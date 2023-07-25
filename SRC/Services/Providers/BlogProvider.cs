@@ -21,7 +21,6 @@ namespace server.SRC.Services.Providers
             try
             {
                 blog.Id = Library.GenerateId(Constant.lengthId);
-                blog.NumViews = 0;
                 blog.CreatedAt = DateTime.Now;
                 blog.ModifiedAt = DateTime.Now;
                 await this._context.AddAsync(blog);

@@ -28,6 +28,12 @@ builder.Services.AddScoped<IUserService, UserProvider>();
 builder.Services.AddScoped<IAccountService, AccountProvider>();
 builder.Services.AddScoped<IBlogService, BlogProvider>();
 builder.Services.AddScoped<ICommentService, CommentProvider>();
+builder.Services.AddScoped<IBlogViewSerivce, BlogViewProvider>();
+builder.Services.AddScoped<ICommentLikeService, CommentLikeProvider>();
+builder.Services.AddScoped<ICategoryService, CategoryProvider>();
+builder.Services.AddScoped<IBlogCategoryService, BlogCategoryProvider>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

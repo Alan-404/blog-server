@@ -16,12 +16,14 @@ namespace server.SRC.Controllers
         private readonly IAccountService _accountService;
         private readonly IUserService _userService;
         private readonly ICommentService _commentService;
+        private readonly IBlogViewSerivce _blogViewService;
 
-        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService, ICommentService commentService)
+        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService, ICommentService commentService, IBlogViewSerivce blogViewService)
         {
             this._blogService = blogService;
             this._accountService = accountService;
             this._userService = userService;
+            this._blogViewService = blogViewService;
             this._commentService = commentService;
         }
 
@@ -73,8 +75,6 @@ namespace server.SRC.Controllers
             Blog blog = await this._blogService.GetById(id);
             if (blog == null) return NotFound("Not found blog");
 
-            blog.NumViews = blog.NumViews + 1;
-
             Blog savedBlog = await this._blogService.Edit(blog);
             if (savedBlog == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
             return Ok();
@@ -96,12 +96,12 @@ namespace server.SRC.Controllers
             List<BlogInfo> items = new List<BlogInfo>();
             foreach (var blog in blogs){
                 User user = await this._userService.GetById(blog.UserId);
-                int numViews = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
                 BlogInfo item = new BlogInfo();
                 item.BlogId = blog.Id;
                 item.Author = user.FirstName + " " + user.LastName;
                 item.Title = blog.Title;
-                item.NumViews = numViews;
+                item.NumComments = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
+                item.numViews = (await this._blogViewService.GetNumViewsByBlogId(blog.Id));
                 item.Introduction = blog.Introduction;
                 item.CreatedAt = blog.CreatedAt;
                 item.ModifiedAt = blog.ModifiedAt;
@@ -136,7 +136,8 @@ namespace server.SRC.Controllers
             item.Title = blog.Title;
             item.Introduction = blog.Introduction;
             item.Content = blog.Content;
-            item.NumViews = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
+            item.NumComments = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
+            item.numViews = (await this._blogViewService.GetNumViewsByBlogId(blog.Id));
             item.CreatedAt = blog.CreatedAt;
             item.ModifiedAt = blog.ModifiedAt;
 

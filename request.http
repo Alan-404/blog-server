@@ -11,7 +11,11 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5200/server/comment/blog/lep828mw2a
+GET http://localhost:5200/server/comment/blog/c68jkgq3ve
+Content-Type: application/json
+
+###
+GET http://localhost:5200/server/comment/reply/d2zl9e2l3aazx84gbd20
 Content-Type: application/json
 
 ###
@@ -27,12 +31,21 @@ Content-Type: application/json
 ###
 GET http://localhost:5200/server/account/auth
 Content-Type: application/json
-Authorization: Bearer edyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAyNTM5NzIsImV4cCI6MTY5MDM0MDM3MiwiaWF0IjoxNjkwMjUzOTcyfQ.sFbIsUzJd5ntA9NxI05djkFM2uxbXuGqAxz48AdvlGQ
+
+###
+POST http://localhost:5200/server/category
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAyNjMyMjQsImV4cCI6MTY5MDM0OTYyNCwiaWF0IjoxNjkwMjYzMjI0fQ.IlYDEGqNswY7APFGrothjJQj2Toz35merrZyw0MDTUc
+
+{
+    "name": "Deep Learning"
+}
 
 ###
 GET http://localhost:5200/server/user/profile
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2ODk5NDk3NzksImV4cCI6MTY5Nzg5ODU3OSwiaWF0IjoxNjg5OTQ5Nzc5fQ.YpDG_ef93wgHVV0ivl3zYd69brieqFTzLVnVckAxLqY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAwMTE4NDcsImV4cCI6MTY5MDA5ODI0NywiaWF0IjoxNjkwMDExODQ3fQ.eMoIDgN3ZcSZAiB1ZFG-nfY6RXl--merMm1mIqI5qVE
 
 ###
 POST http://localhost:5200/server/blog/add
@@ -54,6 +67,19 @@ GET http://localhost:5200/server/blog/show
 Content-Type: application/json
 
 ###
+GET http://localhost:5200/server/comment/num/lep828mw2a
+Content-Type: application/json
+
+###
+POST http://localhost:5200/server/view
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAyNTM5NzIsImV4cCI6MTY5MDM0MDM3MiwiaWF0IjoxNjkwMjUzOTcyfQ.sFbIsUzJd5ntA9NxI05djkFM2uxbXuGqAxz48AdvlGQ
+
+{
+    "blogId": "lep828mw2a"
+}
+
+###
 POST http://localhost:5200/server/comment/add
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAwMTE4NDcsImV4cCI6MTY5MDA5ODI0NywiaWF0IjoxNjkwMDExODQ3fQ.eMoIDgN3ZcSZAiB1ZFG-nfY6RXl--merMm1mIqI5qVE
@@ -71,3 +97,12 @@ Content-Type: application/json
 ###
 GET http://localhost:5200/server/user/info/81tezr1po7
 Content-Type: application/json
+
+###
+POST http://localhost:5200/server/like/add
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAyNTM5NzIsImV4cCI6MTY5MDM0MDM3MiwiaWF0IjoxNjkwMjUzOTcyfQ.sFbIsUzJd5ntA9NxI05djkFM2uxbXuGqAxz48AdvlGQ
+
+{
+    "commentId": "36ayps501uf55oi27fcp"
+}
