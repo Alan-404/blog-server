@@ -7,5 +7,6 @@ namespace server.SRC.Services
     {
         public Task<Category> Save(Category category);
         public Task<Category> GetById(string id);
+        public Task<List<Category>> GetAll();
     }
 }

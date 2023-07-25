@@ -68,5 +68,18 @@ namespace server.SRC.Services.Providers
                 return false;
             }
         }
+
+        public async Task<BlogCategory> GetFirstByBlogId(string blogId)
+        {
+            try
+            {
+                return await this._context.BlogCategories.FirstOrDefaultAsync(p => p.BlogId == blogId);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
     }
 }

@@ -19,6 +19,13 @@ namespace server.SRC.Controllers
             this._accountService = accountService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllCategories()
+        {
+            List<Category> categories = await this._categoryService.GetAll();
+            return Ok(categories);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddCategory([FromBody] Category category)
         {

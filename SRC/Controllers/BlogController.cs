@@ -17,14 +17,18 @@ namespace server.SRC.Controllers
         private readonly IUserService _userService;
         private readonly ICommentService _commentService;
         private readonly IBlogViewSerivce _blogViewService;
+        private readonly IBlogCategoryService _blogCategoryService;
+        private readonly ICategoryService _categoryService;
 
-        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService, ICommentService commentService, IBlogViewSerivce blogViewService)
+        public BlogController(IBlogService blogService, IAccountService accountService, IUserService userService, ICommentService commentService, IBlogViewSerivce blogViewService, IBlogCategoryService blogCategoryService, ICategoryService categoryService)
         {
             this._blogService = blogService;
             this._accountService = accountService;
             this._userService = userService;
             this._blogViewService = blogViewService;
             this._commentService = commentService;
+            this._blogCategoryService = blogCategoryService;
+            this._categoryService = categoryService;
         }
 
         [HttpPost("add")]
@@ -37,12 +41,18 @@ namespace server.SRC.Controllers
                 Account account = await this._accountService.GetById(accountId);
                 if (account == null) return Unauthorized(Message.INVALID_TOKEN);
                 else if (account.Role.Equals(RoleEnum.ADMIN.ToString().ToLower()) == false) return Forbid(Message.FORBIDDEN_CLIENT); 
-
-                
                 
                 Blog blog = new Blog(account.UserId ,request.Title, request.Introduction, request.Content);
                 Blog savedBlog = await this._blogService.Save(blog);
                 if (savedBlog == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+
+                foreach (var categoryId in request.Categories)
+                {
+                    Category checkCategory = await this._categoryService.GetById(categoryId);
+                    if(checkCategory == null) continue;
+
+                    await this._blogCategoryService.Save(new BlogCategory(savedBlog.Id, categoryId));
+                }
                 
                 bool savedThumnail = await this._blogService.SaveThumnail(request.Thumnail, savedBlog.Id);
                 if (savedThumnail == false) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
@@ -96,6 +106,7 @@ namespace server.SRC.Controllers
             List<BlogInfo> items = new List<BlogInfo>();
             foreach (var blog in blogs){
                 User user = await this._userService.GetById(blog.UserId);
+                BlogCategory categoryItem = await this._blogCategoryService.GetFirstByBlogId(blog.Id);
                 BlogInfo item = new BlogInfo();
                 item.BlogId = blog.Id;
                 item.Author = user.FirstName + " " + user.LastName;
@@ -103,6 +114,10 @@ namespace server.SRC.Controllers
                 item.NumComments = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
                 item.numViews = (await this._blogViewService.GetNumViewsByBlogId(blog.Id));
                 item.Introduction = blog.Introduction;
+                if (categoryItem != null)
+                {
+                    item.Category = await this._categoryService.GetById(categoryItem.CategoryId);
+                }
                 item.CreatedAt = blog.CreatedAt;
                 item.ModifiedAt = blog.ModifiedAt;
                 items.Add(item);
@@ -129,7 +144,12 @@ namespace server.SRC.Controllers
             if (blog == null) return NotFound("Not Found Blog");
 
             BlogDetail item = new BlogDetail();
-            
+            List<BlogCategory> categoryItems = await this._blogCategoryService.GetByBlogId(id);
+            List<Category> categories = new List<Category>();
+            foreach (var categoryItem in categoryItems)
+            {
+                categories.Add((await this._categoryService.GetById(categoryItem.CategoryId)));
+            }
             User user = await this._userService.GetById(blog.UserId);
             item.Author = user.FirstName + " " + user.LastName;
             item.BlogId = blog.Id;
@@ -138,6 +158,7 @@ namespace server.SRC.Controllers
             item.Content = blog.Content;
             item.NumComments = (await this._commentService.GetAllByBlogId(blog.Id)).Count;
             item.numViews = (await this._blogViewService.GetNumViewsByBlogId(blog.Id));
+            item.Categories = categories;
             item.CreatedAt = blog.CreatedAt;
             item.ModifiedAt = blog.ModifiedAt;
 
@@ -149,6 +170,27 @@ namespace server.SRC.Controllers
         {
             string path = this._blogService.GetThumnailLink(id);
             return File(System.IO.File.OpenRead(path), Constant.contentTypeImage);
+        }
+
+        [HttpGet("author/{userId}")]
+        public async Task<IActionResult> GetBlogsByAuthor([FromRoute(Name = "userId")] string authorId)
+        {
+            List<Blog> blogs = await this._blogService.GetByUserId(authorId);
+            return Ok(blogs);
+        }
+
+        [HttpGet("my")]
+        public async Task<IActionResult> GetMyBlogs()
+        {
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTH_HEADER, out var accountId))
+            {
+                Account account = await this._accountService.GetById(accountId);
+                if (account == null) return Unauthorized(Message.INVALID_TOKEN);
+
+                List<Blog> blogs = await this._blogService.GetByUserId(account.UserId);
+                return Ok(blogs);
+            }
+            else return Unauthorized(Message.INVALID_TOKEN);
         }
     }
 }

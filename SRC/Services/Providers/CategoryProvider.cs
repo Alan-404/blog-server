@@ -43,5 +43,18 @@ namespace server.SRC.Services.Providers
                 return null;
             }
         }
+
+        public async Task<List<Category>> GetAll()
+        {
+            try
+            {
+                return await this._context.Categories.ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<Category>();
+            }
+        }
     }
 }

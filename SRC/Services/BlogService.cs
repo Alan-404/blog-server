@@ -13,5 +13,6 @@ namespace server.SRC.Services
         public string GetThumnailLink(string id);
         public string GetMediaLink(string id);
         public Task<string> SaveMedia(IFormFile file);
+        public Task<List<Blog>> GetByUserId (string userId);
     }
 }

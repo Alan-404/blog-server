@@ -128,5 +128,18 @@ namespace server.SRC.Services.Providers
                 return null;
             }
         }
+
+        public async Task<List<Blog>> GetByUserId (string userId)
+        {
+            try
+            {
+                return await this._context.Blogs.Where(p => p.UserId == userId).ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<Blog>();
+            }
+        }
     }
 }

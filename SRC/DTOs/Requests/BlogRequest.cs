@@ -10,6 +10,7 @@ namespace server.SRC.DTOs.Requests
         public string Title {get; set;}
         public string Introduction {get; set;}
         public string Content {get; set;}
+        public List<string> Categories {get; set;}
         public IFormFile Thumnail {get; set;}
     }
 }

@@ -1,4 +1,4 @@
-
+using server.SRC.Models;
 
 namespace server.SRC.DTOs.Responses
 {
@@ -16,6 +16,7 @@ namespace server.SRC.DTOs.Responses
         public string Title{get; set;}
         public string Introduction {get; set;}
         public string Content {get; set;}
+        public List<Category> Categories {get; set;}
         public int NumComments {get; set;}
         public int numViews {get; set;}
         public DateTime CreatedAt {get; set;}
@@ -36,6 +37,7 @@ namespace server.SRC.DTOs.Responses
         public string BlogId {get; set;}
         public string Title{get; set;}
         public string Introduction {get; set;}
+        public Category Category {get; set;}
         public int NumComments {get; set;}
         public int numViews {get; set;}
         public DateTime CreatedAt {get; set;}

@@ -14,5 +14,13 @@ namespace server.SRC.Models
         public string BlogId {get; set;}
         [Column("category_id")]
         public string CategoryId {get;set;}
+
+        public BlogCategory(){}
+
+        public BlogCategory(string blogId, string categoryId)
+        {
+            this.BlogId = blogId;
+            this.CategoryId = categoryId;
+        }
     }
 }

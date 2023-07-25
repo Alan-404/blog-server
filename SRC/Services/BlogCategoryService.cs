@@ -8,5 +8,6 @@ namespace server.SRC.Services
         public Task<bool> Remove(BlogCategory item);
         public Task<BlogCategory> GetByBlogIdAndCategoryId (string blogId, string categoryId);
         public Task<List<BlogCategory>> GetByBlogId(string blogId);
+        public Task<BlogCategory> GetFirstByBlogId(string blogId);
     }
 }

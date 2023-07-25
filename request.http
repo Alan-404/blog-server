@@ -63,6 +63,10 @@ GET http://localhost:5200/server/blog/all
 Content-Type: application/json
 
 ###
+GET http://localhost:5200/server/category
+Content-Type: application/json
+
+###
 GET http://localhost:5200/server/blog/show
 Content-Type: application/json
 
