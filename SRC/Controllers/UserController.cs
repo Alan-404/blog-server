@@ -3,6 +3,7 @@ using server.SRC.Models;
 using server.SRC.Services;
 using server.SRC.Utils;
 using server.SRC.DTOs.Requests;
+using server.SRC.DTOs.Responses;
 namespace server.SRC.Controllers
 {
     [ApiController]
@@ -11,11 +12,15 @@ namespace server.SRC.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
+        private readonly ISocialNetworkService _socialNetworkService;
+        private readonly IUserSocialNetworkService _userNetworkService;
 
-        public UserController(IUserService userService, IAccountService accountService)
+        public UserController(IUserService userService, IAccountService accountService, ISocialNetworkService socialNetworkService, IUserSocialNetworkService userNetworkService)
         {
             this._userService = userService;
             this._accountService = accountService;
+            this._socialNetworkService = socialNetworkService;
+            this._userNetworkService = userNetworkService;
         }
 
         [HttpPost]
@@ -44,6 +49,37 @@ namespace server.SRC.Controllers
             return File(System.IO.File.OpenRead(path), Constant.contentTypeImage);
         }
 
+        [HttpPut("edit")]
+        public async Task<IActionResult> EditUserProfile([FromBody] EditUserRequest request)
+        {
+            if (HttpContext.Request.Headers.TryGetValue(RequestHeader.AUTH_HEADER, out var accountId))
+            {
+                Account account = await this._accountService.GetById(accountId);
+                if (account == null) return Unauthorized(Message.INVALID_TOKEN);
+
+                User user = await this._userService.GetById(account.UserId);
+                if (user == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+
+                foreach (var network in request.Networks)
+                {
+                    SocialNetwork checkNetwork = await this._socialNetworkService.GetById(network.NetworkId);
+                    if (checkNetwork == null) continue;
+                    await this._userNetworkService.Save(new UserSocialNetwork(user.Id, network.NetworkId, network.Link));
+                }
+
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.Gender = request.Gender;
+                user.PhoneNumber = request.PhoneNumber;
+                user.BDate = request.BDate;
+
+                User savedUser = await this._userService.Edit(user);
+                if (savedUser == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
+                return Ok(savedUser);
+            }
+            else return Unauthorized(Message.INVALID_TOKEN);
+        }
+
         [HttpGet("profile")]
         public async Task<IActionResult> GetMyProfile()
         {
@@ -54,7 +90,25 @@ namespace server.SRC.Controllers
 
                 User user = await this._userService.GetById(account.UserId);
                 if (user == null) return StatusCode(500, Message.INTERNAL_ERROR_SERVER);
-                return Ok(user);
+
+                List<SocialNetworkInfo> networks = new List<SocialNetworkInfo>();
+                List<UserSocialNetwork> items = await this._userNetworkService.GetByUserId(user.Id);
+                foreach (var item in items)
+                {
+                    networks.Add(new SocialNetworkInfo(item.Id, item.Link));
+                }
+                return Ok(new UserInfo(
+                    user.Id,
+                    user.Email,
+                    user.FirstName,
+                    user.LastName,
+                    user.PhoneNumber,
+                    user.BDate,
+                    user.Gender,
+                    networks,
+                    user.CreatedAt,
+                    user.ModifiedAt
+                ));
             }
             else return Unauthorized(Message.INVALID_TOKEN);
         }

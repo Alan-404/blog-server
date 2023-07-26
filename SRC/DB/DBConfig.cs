@@ -17,6 +17,8 @@ namespace server.SRC.DB
         public DbSet<BlogView> BlogViews {get; set;}
         public DbSet<BlogCategory> BlogCategories {get; set;}
         public DbSet<CommentLike> CommentLikes {get; set;}
+        public DbSet<SocialNetwork> SocialNetworks {get; set;}
+        public DbSet<UserSocialNetwork> UserSocialNetworks {get; set;}
         
     }
 }

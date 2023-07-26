@@ -32,7 +32,8 @@ builder.Services.AddScoped<IBlogViewSerivce, BlogViewProvider>();
 builder.Services.AddScoped<ICommentLikeService, CommentLikeProvider>();
 builder.Services.AddScoped<ICategoryService, CategoryProvider>();
 builder.Services.AddScoped<IBlogCategoryService, BlogCategoryProvider>();
-
+builder.Services.AddScoped<ISocialNetworkService, SocialNetworkProvider>();
+builder.Services.AddScoped<IUserSocialNetworkService, UserSocialNetworkProvider>();
 
 var app = builder.Build();
 

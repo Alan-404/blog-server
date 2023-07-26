@@ -17,6 +17,8 @@ namespace server.SRC.Models
         public string LastName {get; set;}
         [Column("phone_number")]
         public string PhoneNumber {get; set;}
+        [Column("b_date")]
+        public DateTime? BDate {get; set;}
         [Column("gender")]
         public string Gender {get; set;}
         [Column("created_at")]

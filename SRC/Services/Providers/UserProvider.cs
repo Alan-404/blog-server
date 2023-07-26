@@ -32,6 +32,23 @@ namespace server.SRC.Services.Providers
             }
         }
 
+        public async Task<User> Edit(User user)
+        {
+            try
+            {
+                user.ModifiedAt = DateTime.Now;
+                this._context.Users.Attach(user);
+                this._context.Users.Update(user);
+                await this._context.SaveChangesAsync();
+                return user;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
         public async Task<User> GetByEmail (string email)
         {
             try

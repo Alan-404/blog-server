@@ -12,6 +12,7 @@ namespace server.SRC.Utils
     public class DefaultPath
     {
         public readonly static string userPath = "./Default/user.png";
+        public readonly static string socialNetworkPath = "./Default/network.png";
     }
 
     public class RequestHeader

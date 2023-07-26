@@ -27,6 +27,9 @@ Content-Type: application/json
     "password": "123456"
 }
 
+###
+GET http://localhost:5200/server/network
+Content-Type: application/json
 
 ###
 GET http://localhost:5200/server/account/auth
@@ -45,7 +48,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZ
 ###
 GET http://localhost:5200/server/user/profile
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAwMTE4NDcsImV4cCI6MTY5MDA5ODI0NywiaWF0IjoxNjkwMDExODQ3fQ.eMoIDgN3ZcSZAiB1ZFG-nfY6RXl--merMm1mIqI5qVE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAzNDY3MDksImV4cCI6MTY5MDQzMzEwOSwiaWF0IjoxNjkwMzQ2NzA5fQ.lO1-o6m2zYyte5LTyB-t9jWSbjDND7LGYL6CbhdMeAY
 
 ###
 POST http://localhost:5200/server/blog/add
