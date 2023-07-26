@@ -3,6 +3,7 @@ using server.SRC.DB;
 using server.SRC.Services;
 using server.SRC.Services.Providers;
 using server.SRC.Middlewares;
+using server.SRC.Hubs;
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IBlogCategoryService, BlogCategoryProvider>();
 builder.Services.AddScoped<ISocialNetworkService, SocialNetworkProvider>();
 builder.Services.AddScoped<IUserSocialNetworkService, UserSocialNetworkProvider>();
 
+
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,5 +54,6 @@ app.UseMiddleware<AuthMiddleware>();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
+app.MapHub<ChatHub>("server/chat");
 
 app.Run();
