@@ -39,10 +39,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZ
 ###
 POST http://localhost:5200/server/category
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTAyNjMyMjQsImV4cCI6MTY5MDM0OTYyNCwiaWF0IjoxNjkwMjYzMjI0fQ.IlYDEGqNswY7APFGrothjJQj2Toz35merrZyw0MDTUc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkcGh2MWZxNzUiLCJuYmYiOjE2OTAzNzE3MzEsImV4cCI6MTY5MDQ1ODEzMSwiaWF0IjoxNjkwMzcxNzMxfQ.R7rBeKLHQ4-RKJzKejwzllz9oip0VUwJ1Y5LzaxbbAU
 
 {
-    "name": "Deep Learning"
+    "name": "A.I."
 }
 
 ###
