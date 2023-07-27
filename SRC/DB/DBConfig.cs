@@ -19,6 +19,7 @@ namespace server.SRC.DB
         public DbSet<CommentLike> CommentLikes {get; set;}
         public DbSet<SocialNetwork> SocialNetworks {get; set;}
         public DbSet<UserSocialNetwork> UserSocialNetworks {get; set;}
+        public DbSet<Room> Rooms {get ;set;}
         
     }
 }

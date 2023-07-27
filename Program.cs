@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy  =>
                       {
-                          policy.WithOrigins( "http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                          policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                       });
 });
 
@@ -35,7 +35,7 @@ builder.Services.AddScoped<ICategoryService, CategoryProvider>();
 builder.Services.AddScoped<IBlogCategoryService, BlogCategoryProvider>();
 builder.Services.AddScoped<ISocialNetworkService, SocialNetworkProvider>();
 builder.Services.AddScoped<IUserSocialNetworkService, UserSocialNetworkProvider>();
-
+builder.Services.AddScoped<IRoomService, RoomProvider>();
 
 builder.Services.AddSignalR();
 
