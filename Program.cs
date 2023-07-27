@@ -54,6 +54,7 @@ app.UseMiddleware<AuthMiddleware>();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
-app.MapHub<ChatHub>("server/chat");
+app.UseWebSockets();
+app.MapHub<ChatHub>("/ws");
 
 app.Run();
