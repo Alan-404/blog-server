@@ -14,12 +14,14 @@ namespace server.SRC.Controllers
         private readonly IRoomService _roomService;
         private readonly IUserService _userService;
         private readonly IAccountService _accountService;
+        private readonly IRoomMessageService _roomMessageService;
 
-        public RoomController(IRoomService roomService, IUserService userService, IAccountService accountService)
+        public RoomController(IRoomService roomService, IUserService userService, IAccountService accountService, IRoomMessageService roomMessageService)
         {
             this._roomService  = roomService;
             this._userService = userService;
             this._accountService = accountService;
+            this._roomMessageService = roomMessageService;
         }
 
         [HttpGet("connect/{receiverId}")]
@@ -69,11 +71,15 @@ namespace server.SRC.Controllers
                 User receiver = await this._userService.GetById(receiverId);
 
                 return Ok(new RoomInfo(roomId, sender, receiver));
-
-            
-                
             }
             else return Unauthorized();
+        }
+
+        [HttpGet("message/{roomId}")]
+        public async Task<IActionResult> GetMessageOfRoom([FromRoute(Name = "roomId")] string roomId)
+        {
+            List<RoomMessage> messages = await this._roomMessageService.GetByRoomId(roomId);
+            return Ok(messages);
         }
 
         [HttpPost("create")]
