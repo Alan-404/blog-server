@@ -82,6 +82,19 @@ namespace server.SRC.Services.Providers
             return null;
         }
 
+        public async Task<List<User>> GetAll()
+        {
+            try
+            {
+                return await this._context.Users.ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return new List<User>();
+            }
+        }
+
         public bool DeleteAvatar(string id)
         {
             try

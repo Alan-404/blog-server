@@ -11,5 +11,6 @@ namespace server.SRC.Services
         public string GetAvatarPath(string id);
         public Task<bool> SaveAvatar(string id, IFormFile avatar);
         public bool DeleteAvatar(string id);
+        public Task<List<User>> GetAll();
     }
 }

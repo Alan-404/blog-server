@@ -40,6 +40,12 @@ namespace server.SRC.Controllers
             return Ok(savedUser);
         }
 
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok((await this._userService.GetAll()));
+        }
+
         [HttpGet("avatar/{userId}")]
         public IActionResult GetAvatar([FromRoute(Name = "userId")] string userId)
         {

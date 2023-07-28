@@ -36,6 +36,8 @@ builder.Services.AddScoped<IBlogCategoryService, BlogCategoryProvider>();
 builder.Services.AddScoped<ISocialNetworkService, SocialNetworkProvider>();
 builder.Services.AddScoped<IUserSocialNetworkService, UserSocialNetworkProvider>();
 builder.Services.AddScoped<IRoomService, RoomProvider>();
+builder.Services.AddScoped<IRoomMessageService, RoomMessageProvider>();
+
 
 builder.Services.AddSignalR();
 
@@ -55,6 +57,6 @@ app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
 app.UseWebSockets();
-app.MapHub<ChatHub>("/ws");
+app.MapHub<ChatHub>("/server/ws");
 
 app.Run();

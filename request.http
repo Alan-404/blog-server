@@ -113,3 +113,29 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZ
 {
     "commentId": "36ayps501uf55oi27fcp"
 }
+
+###
+GET http://localhost:5200/server/user/all
+Content-Type: application/json
+
+###
+POST http://localhost:5200/server/room/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTA1MDk5NjcsImV4cCI6MTY5MDU5NjM2NywiaWF0IjoxNjkwNTA5OTY3fQ.PRx2thDK1-BtBS2RXBdCRgrnySyLXAjUqjJB1-qYSbM
+
+{
+    "receiver": "a2ve2tbm7y"
+}
+
+###
+GET http://localhost:5200/server/room/connect/a2ve2tbm7y
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTA1MDk5NjcsImV4cCI6MTY5MDU5NjM2NywiaWF0IjoxNjkwNTA5OTY3fQ.PRx2thDK1-BtBS2RXBdCRgrnySyLXAjUqjJB1-qYSbM
+
+
+###
+GET http://localhost:5200/server/room/chat/gz51zb8ifab0b0u2igbc2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtlOWM3ZXdvZW4iLCJuYmYiOjE2OTA1MTQ1NzcsImV4cCI6MTY5MDYwMDk3NywiaWF0IjoxNjkwNTE0NTc3fQ.Nu77gnBwsrrsqEEC4H9sllzoxpdkbJcYB6NMDVlHGlQ
+
+

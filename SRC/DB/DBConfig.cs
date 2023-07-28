@@ -20,6 +20,7 @@ namespace server.SRC.DB
         public DbSet<SocialNetwork> SocialNetworks {get; set;}
         public DbSet<UserSocialNetwork> UserSocialNetworks {get; set;}
         public DbSet<Room> Rooms {get ;set;}
+        public DbSet<RoomMessage> RoomMessages {get; set;}
         
     }
 }

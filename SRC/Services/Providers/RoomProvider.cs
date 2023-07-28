@@ -30,5 +30,44 @@ namespace server.SRC.Services.Providers
                 return null;
             }
         }
+
+        public async Task<List<Room>> FindByUserId(string userId)
+        {
+            try
+            {
+                return await this._context.Rooms.Where(p => p.User1 == userId || p.User2 == userId).ToListAsync();
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<Room> GetById(string id)
+        {
+            try
+            {
+                return await this._context.Rooms.FindAsync(id);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
+
+        public async Task<Room> GetByTwoUsers (string user1, string user2)
+        {
+            try
+            {
+                return await this._context.Rooms.FirstOrDefaultAsync(p => p.User1 == user1 && p.User2 == user2);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
+        }
     }
 }
